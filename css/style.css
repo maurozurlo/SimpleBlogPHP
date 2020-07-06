@@ -1,0 +1,13 @@
+.updating{
+  background: #ffde66;
+}
+.error{
+  background: #d03030;
+  color: white;
+}
+.updating, .error{
+transition: .5s all;
+}
+.btn{
+  color: white !important;
+}
