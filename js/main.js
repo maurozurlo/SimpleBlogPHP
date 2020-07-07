@@ -11,11 +11,15 @@ const login = () => {
                 beforeSend: function () {
                         $("#loading").html("Please wait...");
                 },
-                success: (response) => { 
-                        console.log("here")
+                success: (response) => {
+                        $("#loading").html("");
+                        $("#error").hide();
+                        location.href = response;
                 },
                 error: (err) => {
-                        $("#error").show()
+                        $("#loading").html("");
+                        $("#error").show();
                 }
         });
+
 }

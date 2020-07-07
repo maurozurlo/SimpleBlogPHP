@@ -8,6 +8,22 @@
 .updating, .error{
 transition: .5s all;
 }
-.btn{
-  color: white !important;
+
+.title{
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions{
+  width: 35px;
+  height: 35px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.table td, .table th{
+  padding: 5px !important;
 }

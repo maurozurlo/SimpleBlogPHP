@@ -1,6 +1,7 @@
 <?php
-require "php/Auth.php";
-require_once("php/dbConfig.php");
+require "php/_auth.php";
+require_once("php/_dbConfig.php");
+
 $id = "";
 $title = $state = $content = $ts = '';
 $action = "nuevo";
@@ -52,9 +53,9 @@ function selectFn($val)
 
 <body>
   <div class="container">
-  <div class="row my-2">
+    <div class="row my-2">
       <div class="col-md-12 mx-auto">
-        <h1 class="mt-4 text-center">SimpleBlogPHP</h1>
+        <h1 class="mt-4 text-center"><a href="index.php">SimpleBlogPHP</a></h1>
       </div>
       <div class="col-md-8 mx-auto">
         <small class="text-right d-block">
@@ -63,8 +64,11 @@ function selectFn($val)
       </div>
     </div>
   </div>
+  <hr>
+
+  <div class="container">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-8 mx-auto">
         <form>
           <input type="hidden" value="<?php echo $id ?>" id="id">
           <input type="hidden" id="action" value="<?php echo $action ?>">
@@ -78,16 +82,16 @@ function selectFn($val)
           <div class="form-group">
             <label for="state">Status</label>
             <select class="form-control" id="state">
-              <option <?php echo selectFn("Publicado") ?>>Published</option>
-              <option <?php echo selectFn("Borrador") ?>>Draft</option>
+              <option <?php echo selectFn("Published") ?>>Published</option>
+              <option <?php echo selectFn("Draft") ?>>Draft</option>
             </select>
           </div>
           <div class="form-group">
             <textarea class="form-control" id="content" rows="3" placeholder="Write something..."><?php echo $content ?></textarea>
           </div>
           <div class="form-group float-right">
-            <a class="btn btn-danger" onclick="deletePost();return false;">Delete</a>
-            <a class="btn btn-primary" onclick="realizaProceso($('#action').val());return false;">Save</a>
+            <button class="btn btn-outline-danger" onclick="deletePost();return false;">Delete</button>
+            <button class="btn btn-primary" onclick="realizaProceso($('#action').val());return false;">Save</button>
           </div>
         </form>
       </div>

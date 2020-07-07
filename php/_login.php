@@ -1,5 +1,5 @@
 <?php
-include "dbConfig.php";
+include "_dbConfig.php";
 
 if (!isset($_POST['user']) && !isset($_POST['pass'])) {
 	err();
@@ -25,7 +25,8 @@ function QueryDatabase($user, $pass)
 	// Login
 	$_SESSION["state"] = true;
 	$_SESSION["name"] = $user;
-	header("HTTP/1.1 200 Success");
+	// Redirect
+	echo "dashboard.php";
 	exit;
 }
 

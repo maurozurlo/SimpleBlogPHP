@@ -1,12 +1,12 @@
 <?php
-include "Auth.php";
-include "dbConfig.php";
+include "_auth.php";
+include "_dbConfig.php";
 
 if(isset($_POST['accion'])){
 	$accion = $_POST['accion'];
 	$id = $_POST['id'];
 	$titulo = $_POST['titulo'];
-	$fecha = $_POST['fecha'];
+	$fecha = $_POST['fecha'] ? $_POST['fecha'] : date("Y-m-d H:i:s");
 	$estado = $_POST['estado'];
 	$contenido = $_POST['contenido'];
 	$autor = $_SESSION['name'];
@@ -44,7 +44,5 @@ function updatePost($titulo,$estado,$contenido,$autor,$fecha,$id){
 function QueryDatabase($sql){
 global $con;
 $result = mysqli_query($con, $sql) or die("Failed to Query database ".$con->error);
-echo "<script type='text/javascript'>window.location.href = './dashboard.php';</script>";
+echo "dashboard.php";
 }
-
-?>
