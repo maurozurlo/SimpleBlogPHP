@@ -1,17 +1,17 @@
-function deletePost(id){
+function deletePost(id) {
         if (confirm('Are you sure you want to delete this post? this action is permanent.')) {
-            realizaProceso('eliminar');
-                } else {
-           return null;
-                }
+                realizaProceso('eliminar');
+        } else {
+                return null;
         }
+}
 
 function realizaProceso(action) {
         var id = $('#id').val();
         var titulo = $('#title').val();
         var fecha = $('#date').val();
         var estado = $('#state').val();
-        var contenido = encodeURI($('#content').val());
+        var contenido = $('#content').val();
         var accion = action;
 
         var parametros = {
