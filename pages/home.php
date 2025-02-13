@@ -1,30 +1,3 @@
-<div class="container">
-    <div class="row my-2">
-        <div class="col-md-12 mx-auto">
-            <h1 class="mt-4 text-center">
-                <a href="/">SimpleBlogPHP</a>
-            </h1>
-        </div>
-        <div
-            class="col-md-8 mx-auto">
-
-            <?php if ($isLoggedIn): ?>
-                <div class="d-flex align-items-center justify-content-between">
-                    <span class="mr-2">Hi,
-                        <?php echo htmlspecialchars($_SESSION["name"]); ?>
-                        !</span>
-                    <a class="btn btn-outline-secondary btn-sm" href="/dashboard">Dashboard</a>
-                </div>
-            <?php else: ?>
-                <small class="text-right d-block">
-                    <a class="btn btn-outline-secondary btn-sm" href="/login">Login</a>
-                </small>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
-<hr>
-
 <div
     class="container"><?php
     require_once("./php/_dbConfig.php");

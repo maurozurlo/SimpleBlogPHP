@@ -2,32 +2,16 @@
 require_once("php/_protectedRoute.php");
 require_once("php/_dbConfig.php");
 ?>
-<div class="container">
-  <div class="row my-2">
-    <div class="col-md-12 mx-auto">
-      <h1 class="mt-4 text-center">
-        <a href="/">SimpleBlogPHP</a>
-      </h1>
-    </div>
-    <div class="col-md-8 mx-auto">
-      <small class="text-right d-block">
-        <a class="btn btn-outline-secondary btn-sm" href="/logout">Logout</a>
-      </small>
-    </div>
-  </div>
-</div>
-<hr>
+
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-8 d-flex align-items-baseline justify-content-between mx-auto">
-      <p><?php echo "Hi " . $_SESSION["name"]; ?></p>
-      <a class="btn btn-primary" href="/editor">Create new post</a>
-    </div>
-  </div>
+
 
   <div class="row">
     <div class="col-md-8 mx-auto">
+      <div class="text-right mb-3">
+        <a class="btn btn-primary" href="/editor">Create new post</a>
+      </div>
       <table class="table">
         <thead>
           <tr>

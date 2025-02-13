@@ -8,6 +8,7 @@ $parsedUrl = parse_url($requestUri);
 $path = $parsedUrl['path']; // This gives you only the path without the query string
 
 include "./partials/head.php";
+include "./partials/navbar.php";
 // Define routes
 switch ($path) {
   case '/':
