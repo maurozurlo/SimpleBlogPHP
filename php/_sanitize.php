@@ -1,5 +1,6 @@
 <?php
-class HtmlSanitizer {
+class HtmlSanitizer
+{
     // Allowed HTML tags and their permitted attributes
     private $allowedTags = [
         'p' => ['class', 'style'],
@@ -20,17 +21,36 @@ class HtmlSanitizer {
 
     // Attributes that might contain JavaScript
     private $dangerousAttributes = [
-        'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseout', 
-        'onmouseover', 'onmouseup', 'onkeydown', 'onkeypress', 'onkeyup',
-        'onload', 'onunload', 'onchange', 'onsubmit', 'onreset', 'onerror',
-        'onselect', 'onblur', 'onfocus', 'javascript:', 'vbscript:',
-        'expression', 'oninput'
+        'onclick',
+        'ondblclick',
+        'onmousedown',
+        'onmousemove',
+        'onmouseout',
+        'onmouseover',
+        'onmouseup',
+        'onkeydown',
+        'onkeypress',
+        'onkeyup',
+        'onload',
+        'onunload',
+        'onchange',
+        'onsubmit',
+        'onreset',
+        'onerror',
+        'onselect',
+        'onblur',
+        'onfocus',
+        'javascript:',
+        'vbscript:',
+        'expression',
+        'oninput'
     ];
 
-    public function sanitize($content) {
+    public function sanitize($content)
+    {
         // Convert special characters to HTML entities
         $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
-        
+
         // Restore allowed tags
         foreach ($this->allowedTags as $tag => $attributes) {
             // Opening tags
@@ -39,7 +59,7 @@ class HtmlSanitizer {
                 $this->cleanTag($tag, '$1'),
                 $content
             );
-            
+
             // Closing tags
             $content = preg_replace(
                 '/&lt;\/' . $tag . '&gt;/i',
@@ -54,7 +74,8 @@ class HtmlSanitizer {
         return $content;
     }
 
-    private function cleanTag($tag, $attributeString) {
+    private function cleanTag($tag, $attributeString)
+    {
         if (!isset($this->allowedTags[$tag])) {
             return '';
         }
@@ -108,16 +129,17 @@ class HtmlSanitizer {
     }
 
     // Example usage for file uploads (optional)
-    public function sanitizeFileName($fileName) {
+    public function sanitizeFileName($fileName)
+    {
         // Remove any directory components
         $fileName = basename($fileName);
-        
+
         // Remove special characters and spaces
         $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
-        
+
         // Ensure the filename doesn't start with a dot
         $fileName = ltrim($fileName, '.');
-        
+
         return $fileName;
     }
 }
