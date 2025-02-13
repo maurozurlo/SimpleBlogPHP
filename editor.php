@@ -6,9 +6,9 @@ $id = "";
 $title = $state = $content = $ts = '';
 $action = "";
 if (isset($_GET["id"])) {
-  //Cargar segun el get
+  // Load post for editing
   $id = htmlspecialchars($_GET["id"]);
-  $sql = "SELECT state, title, content, ts FROM posts where id = {$id}";
+  $sql = "SELECT state, title, content, ts FROM posts WHERE id = {$id}";
   if ($result = mysqli_query($con, $sql)) {
     while ($row = mysqli_fetch_array($result)) {
       $title = $row['title'];
@@ -19,20 +19,16 @@ if (isset($_GET["id"])) {
     // Free result set
     $action = "update";
     mysqli_free_result($result);
-  } else {
-    //no habia get/get invalido
-    $action = "create";
   }
+} else {
+  // Invalid GET or no data found
+  $action = "create";
 }
 
 function selectFn($val)
 {
   global $state;
-  if ($val == $state) {
-    return "selected";
-  } else {
-    return "";
-  }
+  return $val == $state ? "selected" : "";
 }
 ?>
 <!DOCTYPE html>
@@ -72,7 +68,7 @@ function selectFn($val)
     <div class="container">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <form>
+          <form id="postForm">
             <input type="hidden" value="<?php echo $id ?>" id="id">
             <input type="hidden" id="action" value="<?php echo $action ?>">
             <div class="form-group">
@@ -80,7 +76,7 @@ function selectFn($val)
             </div>
             <div class="form-group">
               <label for="date">Date</label>
-              <input type="datetime" class="form-control" id="date" value="<?php echo $ts ?>">
+              <input type="datetime-local" class="form-control" id="date" value="<?php echo $ts ?>">
             </div>
             <div class="form-group">
               <label for="state">Status</label>
@@ -90,9 +86,7 @@ function selectFn($val)
               </select>
             </div>
             <div class="form-group" style="min-height:380px">
-              <textarea
-                id="editor"><?php echo $content ?>
-              </textarea>
+              <textarea id="editor"><?php echo $content ?></textarea>
             </div>
             <div class="form-group float-right">
               <button class="btn btn-outline-danger" onclick="deletePost();return false;">Delete</button>
@@ -103,11 +97,9 @@ function selectFn($val)
         </div>
       </div>
     </div>
-    <!-- /.container -->
 
     <!-- Include the Quill library -->
     <script src="/vendor/simplemde.min.js"></script>
-
     <script type="text/javascript" src="js/editor.js"></script>
 
   </body>

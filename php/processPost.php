@@ -7,6 +7,8 @@ $sanitizer = new HtmlSanitizer();
 $postdata = file_get_contents("php://input");
 $data = json_decode($postdata, true); // Decode JSON as an associative array
 
+header('Content-Type: application/json'); // Set the response content type to JSON
+
 if (isset($data['action'])) {
     $action = $data['action'];
     $id = $data['id'] ?? null;
@@ -21,22 +23,27 @@ if (isset($data['action'])) {
         switch ($action) {
             case 'create':
                 createPost($title, $state, $content, $author, $date);
+                echo json_encode(['status' => 'success', 'message' => 'Post created successfully']);
                 break;
             case 'update':
                 updatePost($title, $state, $content, $author, $date, $id);
+                echo json_encode(['status' => 'success', 'message' => 'Post updated successfully']);
                 break;
             case 'delete':
                 deletePost($id);
+                echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully']);
                 break;
             default:
-                echo "error";
+                echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
                 break;
         }
     } catch (Exception $e) {
         // Log error securely
         error_log("Database error: " . $e->getMessage());
-        echo "An error occurred while processing your request";
+        echo json_encode(['status' => 'error', 'message' => 'An error occurred while processing your request']);
     }
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'No action specified']);
 }
 
 function deletePost($id)
@@ -70,3 +77,5 @@ function executeStatement($stmt)
     }
     $stmt->close();
 }
+?>
+

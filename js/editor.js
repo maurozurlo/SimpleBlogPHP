@@ -1,12 +1,6 @@
 const simplemde = new SimpleMDE({
         autofocus: true,
-        autosave: {
-                enabled: true,
-                uniqueId: "editor",
-                delay: 1000,
-        },
         element: document.getElementById("editor"),
-        forceSync: true,
         hideIcons: ["guide"],
         lineWrapping: false,
         placeholder: "Type here...",
@@ -46,17 +40,17 @@ async function processAction(action) {
                                 title: document.querySelector('#title').value,
                                 date: document.querySelector('#date').value,
                                 state: document.querySelector('#state').value,
-                                content: encodeURI(simplemde.value()),
+                                content: encodeURIComponent(simplemde.value()),  // Correct encoding
                                 action,
                         }),
                 });
 
                 // Handle the response
+                const result = await response.json();
                 if (response.ok) {
-                        const result = await response.text();
-                        document.querySelector("#result").textContent = "Post updated";
+                        document.querySelector("#result").textContent = result.message || "Operation successful";
                 } else {
-                        console.error('Error in request:', response.statusText);
+                        console.error('Error in request:', result.error || 'Unknown error');
                         document.querySelector("#result").textContent = "An error occurred, please try again.";
                 }
         } catch (error) {
