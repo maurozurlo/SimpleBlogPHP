@@ -43,12 +43,16 @@ async function processAction(action) {
                                 content: encodeURIComponent(simplemde.value()),  // Correct encoding
                                 action,
                         }),
+                        credentials: 'same-origin',
                 });
 
                 // Handle the response
                 const result = await response.json();
                 if (response.ok) {
                         document.querySelector("#result").textContent = result.message || "Operation successful";
+                        if (result.redirectUrl) {
+                                location.replace(result.redirectUrl)
+                        }
                 } else {
                         console.error('Error in request:', result.error || 'Unknown error');
                         document.querySelector("#result").textContent = "An error occurred, please try again.";

@@ -1,21 +1,22 @@
 <?php
-include "_auth.php";
+session_start();
+
 include "_dbConfig.php";
 include "_sanitize.php";
 
 $sanitizer = new HtmlSanitizer();
 $postdata = file_get_contents("php://input");
-$data = json_decode($postdata, true); // Decode JSON as an associative array
+$data = json_decode($postdata, true);
 
-header('Content-Type: application/json'); // Set the response content type to JSON
+header('Content-Type: application/json');
 
 if (isset($data['action'])) {
     $action = $data['action'];
     $id = $data['id'] ?? null;
     $title = $sanitizer->sanitize($data['title'] ?? '');
-    $date = $data['date'] ? $data['date'] : date("Y-m-d H:i:s");
+    $date = $data['date'] ?? date("Y-m-d H:i:s");
     $state = $data['state'] ?? '';
-    $content = $sanitizer->sanitize($data['content']);
+    $content = $sanitizer->sanitize(isset($data['content']) ? $data['content'] : "");
 
     $author = $_SESSION['name'] ?? '';
 
@@ -31,7 +32,7 @@ if (isset($data['action'])) {
                 break;
             case 'delete':
                 deletePost($id);
-                echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully']);
+                echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully', 'redirectUrl' => "/dashboard"]);
                 break;
             default:
                 echo json_encode(['status' => 'error', 'message' => 'Invalid action']);

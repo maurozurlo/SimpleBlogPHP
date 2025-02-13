@@ -1,30 +1,52 @@
-function deletePost(id){
-if (confirm('Are you sure you want to delete this post? this action is permanent.')) {
-    realizaProceso('eliminar',id);
+function deletePost(id) {
+        if (confirm('Are you sure you want to delete this post? This action is permanent.')) {
+                processAction('delete', id);
         } else {
-   return null;
+                return null;
         }
 }
 
-function realizaProceso(action, id){
-        var accion = action;
-        var registro = "#registro" + id.toString();
-        var parametros = {
-                "id" : id,
-                "accion" : accion
+async function processAction(action, id) {
+        const record = "#record" + id.toString();
+        const recordEl = document.querySelector(record)
+        const params = {
+                id: id,
+                action: action
         };
-        $.ajax({
-                data:  parametros, //datos que se envian a traves de ajax
-                url:   './php/processPost.php', //archivo que recibe la peticion
-                type:  'post', //método de envio
-                beforeSend: function () {
-                    $(registro).addClass( "updating" );
-                },
-                success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
-                    $(registro).hide();
-                },
-                error: function(){
-                	$(registro).addClass( "error" );
+
+        try {
+                recordEl.classList.add("updating");
+
+                const response = await fetch('./php/processPost.php', {
+                        method: 'POST',
+                        headers: {
+                                'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(params)
+                });
+
+                // Check if the response is okay
+                if (response.ok) {
+                        const result = await response.json();  // Parse the JSON response
+
+                        if (result.status === 'success') {
+                                // Handle success
+                                recordEl.classList.add('d-none')
+                                alert(result.message);  // Display success message
+                        } else {
+                                // Handle error
+                                recordEl.classList.add("error");
+                                alert(result.message);  // Display error message
+                        }
+                } else {
+                        recordEl.classList.add("error");
+                        console.error('Error in request:', response.statusText);
+                        alert('An unexpected error occurred.');
                 }
-        });
+        } catch (error) {
+                // Handle network or other errors
+                recordEl.classList.add("error");
+                console.error('Error:', error);
+                alert('An unexpected error occurred.');
+        }
 }
