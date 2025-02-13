@@ -1,22 +1,24 @@
-.updating{
+.updating {
   background: #ffde66;
 }
-.error{
+
+.error {
   background: #d03030;
   color: white;
 }
-.updating, .error{
-transition: .5s all;
+
+.updating, .error {
+  transition: .5s all;
 }
 
-.title{
+.title {
   width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.actions{
+.actions {
   width: 35px;
   height: 35px;
   display: inline-flex !important;
@@ -24,6 +26,16 @@ transition: .5s all;
   justify-content: center;
 }
 
-.table td, .table th{
+.table td, .table th {
   padding: 5px !important;
+}
+
+label {
+  font-size: .8rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.form-group {
+  margin-bottom: .5rem;
 }

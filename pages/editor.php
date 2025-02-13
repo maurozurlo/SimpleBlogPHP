@@ -3,16 +3,17 @@ require_once("php/_protectedRoute.php");
 require_once("php/_dbConfig.php");
 
 $id = "";
-$title = $state = $content = $ts = '';
+$title = $state = $content = $ts = $slug = "";
 $action = "";
-if (isset($_GET["id"])) {
+if (isset($params["id"])) {
   // Load post for editing
-  $id = htmlspecialchars($_GET["id"]);
-  $sql = "SELECT state, title, content, ts FROM posts WHERE id = {$id}";
+  $id = htmlspecialchars($params["id"]);
+  $sql = "SELECT state, title, content, slug, ts FROM posts WHERE id = {$id}";
   if ($result = mysqli_query($con, $sql)) {
     while ($row = mysqli_fetch_array($result)) {
       $title = $row['title'];
       $state = $row['state'];
+      $slug = $row['slug'];
       $content = $row['content'];
       $ts = $row['ts'];
     }
@@ -39,7 +40,12 @@ function selectFn($val)
         <input type="hidden" value="<?php echo $id ?>" id="id">
         <input type="hidden" id="action" value="<?php echo $action ?>">
         <div class="form-group">
+          <label for="title">Title</label>
           <input type="text" class="form-control" id="title" placeholder="Title..." value="<?php echo $title ?>" required>
+        </div>
+        <div class="form-group">
+          <label for="slug">Slug</label>
+          <input type="text" class="form-control" id="slug" value="<?php echo $slug ?>" required>
         </div>
         <div class="form-group">
           <label for="date">Date</label>

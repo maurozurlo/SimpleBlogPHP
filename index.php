@@ -9,26 +9,38 @@ $path = $parsedUrl['path']; // This gives you only the path without the query st
 
 include "./partials/head.php";
 include "./partials/navbar.php";
-// Define routes
-switch ($path) {
-  case '/':
-    include './pages/home.php';
+
+// Load routes
+$routes = include('./php/routes.php');
+$params = [];
+// Match the request URI against the routes
+$page = null;
+
+foreach ($routes as $path => $route) {
+  // Create the regex pattern to match dynamic parameters (like :slug)
+  $pattern = preg_replace('/:([\w]+)/', '([^/]+)', $path);
+  $pattern = '#^' . $pattern . '$#'; // Ensure it's the full match
+
+  if (preg_match($pattern, $requestUri, $matches)) {
+    // Capture dynamic parameters (e.g., :slug)
+    preg_match_all('/:([\w]+)/', $path, $paramNames); // Extract parameter names (e.g., "slug")
+    array_shift($matches); // Remove the full match from the array
+
+    // Populate the $params array with captured values, using the parameter names
+    foreach ($paramNames[1] as $index => $paramName) {
+      $params[$paramName] = $matches[$index];
+    }
+
+    // Set the page to include
+    $page = $route;
     break;
-  case '/about':
-    include './pages/about.php';
-    break;
-  case '/editor':
-    include './pages/editor.php';
-    break;
-  case '/dashboard':
-    include './pages/dashboard.php';
-    break;
-  case '/login':
-    include './pages/login.php';
-    break;
-  case '/logout':
-    include './pages/logout.php';
-    break;
+  }
+}
+
+if ($page) {
+  include "./pages/" . $page; // Include the matched page
+} else {
+  echo '404 Not Found'; // Show a 404 page if no route matches
 }
 
 include "./partials/footer.php";

@@ -23,13 +23,25 @@ document.querySelector("#submit").addEventListener('click', event => {
         processAction(document.querySelector("#action").value)
 })
 
+document.querySelector('#title').addEventListener('input', (e) => {
+        function slugify(str) {
+                return String(str)
+                        .normalize('NFKD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .trim()
+                        .replace(/[^a-z0-9 -]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-');
+        }
+
+        document.querySelector("#slug").value = slugify(e.target.value);
+})
+
+
 
 async function processAction(action) {
         try {
-                // Show loading message
                 document.querySelector("#result").textContent = "Processing, please wait...";
-
-                // Send request using fetch API
                 const response = await fetch('./php/processPost.php', {
                         method: 'POST',
                         headers: {
@@ -40,13 +52,12 @@ async function processAction(action) {
                                 title: document.querySelector('#title').value,
                                 date: document.querySelector('#date').value,
                                 state: document.querySelector('#state').value,
-                                content: encodeURIComponent(simplemde.value()),  // Correct encoding
+                                slug: document.querySelector("#slug").value,
+                                content: encodeURIComponent(simplemde.value()),
                                 action,
                         }),
                         credentials: 'same-origin',
                 });
-
-                // Handle the response
                 const result = await response.json();
                 if (response.ok) {
                         document.querySelector("#result").textContent = result.message || "Operation successful";

@@ -53,7 +53,7 @@ require_once("php/_dbConfig.php");
             echo "</td>";
 
             echo "<td>";
-            echo "<a class='btn btn-outline-primary actions' href='/editor?id={$id}'>✏️</a>";
+            echo "<a class='btn btn-outline-primary actions' href='/editor/{$id}'>✏️</a>";
             echo "<a class='btn btn-outline-dark actions' style='margin-left: .5em' onclick='deletePost({$id});return false;'>❌</a>";
             echo "</td>";
             echo "</tr>";
