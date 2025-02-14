@@ -13,7 +13,7 @@ $_SESSION["state"] = false;
 $user = trim($data['user']);
 $pass = $data['pass'];
 
-$stmt = $con->prepare("SELECT username, password FROM users WHERE username = ?");
+$stmt = $con->prepare("SELECT id, username, password FROM users WHERE username = ?");
 $stmt->bind_param("s", $user);
 $stmt->execute();
 $stmt->store_result();
@@ -22,7 +22,7 @@ if ($stmt->num_rows < 1) {
 	err();
 }
 
-$stmt->bind_result($dbUser, $dbPass);
+$stmt->bind_result($dbUserId, $dbUser, $dbPass);
 $stmt->fetch();
 
 if (!password_verify($pass, $dbPass)) {
@@ -31,7 +31,8 @@ if (!password_verify($pass, $dbPass)) {
 
 $_SESSION["state"] = true;
 $_SESSION["name"] = $dbUser;
-echo json_encode(['status' => 'success', 'redirectUrl' => '/dashboard']);
+$_SESSION["userId"] = $dbUserId;
+echo json_encode(['status' => 'success', 'redirectUrl' => '/backoffice']);
 exit;
 
 function err()

@@ -26,6 +26,7 @@ document.querySelector("#submit").addEventListener('click', event => {
 document.querySelector('#title').addEventListener('input', (e) => {
         function slugify(str) {
                 return String(str)
+                        .toLowerCase()
                         .normalize('NFKD')
                         .replace(/[\u0300-\u036f]/g, '')
                         .trim()
@@ -42,7 +43,7 @@ document.querySelector('#title').addEventListener('input', (e) => {
 async function processAction(action) {
         try {
                 document.querySelector("#result").textContent = "Processing, please wait...";
-                const response = await fetch('./php/processPost.php', {
+                const response = await fetch('/php/processPost.php', {
                         method: 'POST',
                         headers: {
                                 'Content-Type': 'application/json',

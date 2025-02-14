@@ -1,6 +1,6 @@
 <?php
-require_once("php/_protectedRoute.php");
-require_once("php/_dbConfig.php");
+require_once "php/_protectedRoute.php";
+require_once "php/_dbConfig.php";
 
 $id = "";
 $title = $state = $content = $ts = $slug = "";
@@ -73,5 +73,5 @@ function selectFn($val)
 
 <!-- Include the Quill library -->
 <script src="/vendor/simplemde.min.js"></script>
-<script type="text/javascript" src="js/editor.js"></script>
+<script type="text/javascript" src="/js/backoffice/posts-edit.js"></script>
 

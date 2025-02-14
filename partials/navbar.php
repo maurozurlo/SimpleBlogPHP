@@ -15,8 +15,8 @@
                         !</span>
                     <div>
                         <?php
-                        if ($requestUri !== '/dashboard') {
-                            echo '<a class="btn btn-outline-secondary btn-sm" href="/dashboard">Dashboard</a>';
+                        if ($requestUri !== '/backoffice') {
+                            echo '<a class="btn btn-outline-secondary btn-sm" href="/backoffice">Dashboard</a>';
                         }
                         ?>
                         <a class="btn btn-outline-danger btn-sm" href="/logout">Logout</a>

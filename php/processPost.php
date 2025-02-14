@@ -34,7 +34,7 @@ if (isset($data['action'])) {
                 break;
             case 'delete':
                 deletePost($id);
-                echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully', 'redirectUrl' => "/dashboard"]);
+                echo json_encode(['status' => 'success', 'message' => 'Post deleted successfully', 'redirectUrl' => "/backoffice"]);
                 break;
             default:
                 echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
