@@ -1,6 +1,5 @@
 <?php
 require_once("./php/_dbConfig.php");
-require_once("./vendor/parsedown-1.7.4/Parsedown.php");
 
 $parsedown = new Parsedown();
 $parsedown->setBreaksEnabled(true);

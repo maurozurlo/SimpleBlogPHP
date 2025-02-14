@@ -72,6 +72,7 @@ function selectFn($val)
 </div>
 
 <!-- Include the Quill library -->
-<script src="/vendor/simplemde.min.js"></script>
+<script src="/js/vendor/simplemde/simplemde.min.js"></script>
+<link href="/js/vendor/simplemde/simplemde.min.css" rel="stylesheet">
 <script type="text/javascript" src="/js/backoffice/posts-edit.js"></script>
 

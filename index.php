@@ -1,5 +1,7 @@
 <?php
+require_once 'vendor/autoload.php';
 $requestUri = $_SERVER['REQUEST_URI'];
+
 session_start();
 $isLoggedIn = isset($_SESSION["state"]) && $_SESSION["state"] === true;
 
