@@ -1,0 +1,14 @@
+{
+    "name": "Image Block",
+    "description": "A simple image block",
+    "variables": {
+        "image": {
+            "type": "image",
+            "default": "Your image goes here..."
+        },
+        "alt": {
+            "type": "string",
+            "default": "Alt text"
+        }
+    }
+}

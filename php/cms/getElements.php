@@ -12,6 +12,7 @@ if (is_dir($elementsDir)) {
         if ($folder === '.' || $folder === '..')
             continue;
 
+        $filename = $folder;
         $jsonPath = $elementsDir . $folder . '/' . $folder . '.json';
 
         if (file_exists($jsonPath)) {
@@ -21,7 +22,7 @@ if (is_dir($elementsDir)) {
             if ($elementData) {
                 // Check if element exists in DB
                 $stmt = $con->prepare("SELECT id FROM elements WHERE path = ?");
-                $stmt->bind_param("s", $jsonPath);
+                $stmt->bind_param("s", $filename);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
@@ -31,7 +32,7 @@ if (is_dir($elementsDir)) {
                 } else {
                     // Insert into database if not found
                     $insertStmt = $con->prepare("INSERT INTO elements (path) VALUES (?)");
-                    $insertStmt->bind_param("s", $jsonPath);
+                    $insertStmt->bind_param("s", $filename);
                     $insertStmt->execute();
                     $elementData['id'] = $insertStmt->insert_id;
                     $insertStmt->close();

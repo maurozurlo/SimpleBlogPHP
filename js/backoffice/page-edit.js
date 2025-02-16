@@ -19,18 +19,20 @@ fetch("/php/cms/getElements.php")
         });
 
         initDraggableElements();
+
+        // Fetch page elements
+        fetch("/php/cms/getPage.php?pageId=1")
+            .then(response => response.json())
+            .then(elements => {
+                elements.forEach(element => {
+                    const newElement = createElement(element.id, element);
+                    builder.appendChild(newElement);
+                });
+            });
     });
 
 
-// Fetch page elements
-fetch("/php/cms/getPage.php?pageId=1")
-    .then(response => response.json())
-    .then(elements => {
-        elements.forEach(element => {
-            const newElement = createElement(element.id, element);
-            builder.appendChild(newElement);
-        });
-    });
+
 
 
 function initDraggableElements() {
@@ -55,7 +57,7 @@ builder.addEventListener("drop", (event) => {
 });
 
 function createElement(elementId, data) {
-    const builderElementId = data?.pageElementId ?? `el-${Date.now()}`;
+    const builderElementId = data?.pageElementId ?? Date.now();
     const elementDef = elementsData[elementId];
     const variables = elementDef?.variables || {};
     const variableData = JSON.stringify(variables);
