@@ -97,7 +97,7 @@ try {
     $htmlOutput = $twig->render("main.template.twig", ['content' => $htmlData]);
 
     // Save HTML output
-    $distDir = "../../dist/";
+    $distDir = "../../pages/dist/";
     if (!is_dir($distDir)) {
         mkdir($distDir, 0777, true);
     }

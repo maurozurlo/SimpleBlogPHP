@@ -1,6 +1,7 @@
 <?php
 return [
-    '/' => 'home.php',
+    '/' => '/dist/1.html',
+    '/blog' => 'home.php',
     '/about' => 'about.php',
     '/backoffice' => 'dashboard.php',
     '/backoffice/:section' => 'dashboard.php',
