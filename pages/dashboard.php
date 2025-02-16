@@ -26,8 +26,8 @@ $section = $params['section'] ?? "";
       case "users":
         include "./pages/backoffice/users-view.php";
         break;
-      default:
-        echo "WIP";
+      case "home":
+        include "./pages/backoffice/page-editor.php";
         break;
     }
     ?></div>

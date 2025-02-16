@@ -35,6 +35,50 @@ if (!$con->query($sql)) {
     die("Error creating posts table: " . $con->error);
 }
 
+// CMS Capabilities
+$sql = "CREATE TABLE IF NOT EXISTS pages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);";
+
+if (!$con->query($sql)) {
+    die("Error creating pages table: " . $con->error);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS elements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    path VARCHAR(255) NOT NULL UNIQUE -- Path to the JSON definition file
+);";
+
+if (!$con->query($sql)) {
+    die("Error creating elements table: " . $con->error);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS page_elements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page_id INT NOT NULL,
+    element_id INT NOT NULL,
+    position INT NOT NULL DEFAULT 0, -- Defines order on the page
+    FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE,
+    FOREIGN KEY (element_id) REFERENCES elements(id) ON DELETE CASCADE
+);";
+
+if (!$con->query($sql)) {
+    die("Error creating page_elements table: " . $con->error);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS elements_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page_element_id INT NOT NULL,
+    variable_name VARCHAR(255) NOT NULL,
+    variable_value TEXT NOT NULL,
+    FOREIGN KEY (page_element_id) REFERENCES page_elements(id) ON DELETE CASCADE
+);";
+
+if (!$con->query($sql)) {
+    die("Error creating elements_data table: " . $con->error);
+}
+
 // Check if the root user already exists
 $stmt = $con->prepare("SELECT id FROM users WHERE username = ?");
 $stmt->bind_param("s", $rootUser);

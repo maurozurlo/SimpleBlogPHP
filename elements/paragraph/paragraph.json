@@ -1,0 +1,14 @@
+{
+    "name": "Paragraph",
+    "description": "A simple text paragraph",
+    "variables": {
+        "text": {
+            "type": "string",
+            "default": "Your paragraph text here..."
+        },
+        "class": {
+            "type": "string",
+            "default": "default-paragraph"
+        }
+    }
+}
