@@ -47,7 +47,25 @@ function initDraggableElements() {
 const builder = document.getElementById("builder");
 builder.addEventListener("dragover", (event) => {
     event.preventDefault();
+    const draggingElement = document.querySelector(".dragging");
+    const afterElement = getDragAfterElement(builder, event.clientY);
+
+    if (afterElement == null) {
+        builder.appendChild(draggingElement);
+    } else {
+        builder.insertBefore(draggingElement, afterElement);
+    }
 });
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll(".placed-element:not(.dragging)")];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
 
 builder.addEventListener("drop", (event) => {
     event.preventDefault();
@@ -69,6 +87,17 @@ function createElement(elementId, data) {
     newElement.setAttribute("data-element-id", elementId);
     newElement.textContent = elementDef?.description || elementDef.name;
     newElement.addEventListener("click", openEditModal);
+
+    newElement.draggable = true;
+    // Handle Drag-and-Drop
+    newElement.addEventListener("dragstart", (event) => {
+        event.dataTransfer.setData("text/plain", builderElementId);
+        newElement.classList.add("dragging");
+    });
+
+    newElement.addEventListener("dragend", () => {
+        newElement.classList.remove("dragging");
+    });
 
     // Create Delete Button
     const deleteButton = document.createElement("button");
